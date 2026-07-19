@@ -50,12 +50,15 @@ smart_downsample <- function(data,
   if (length(deduped_idx) > n_rest_target) {
     deduped_logp <- -log10(data$P[deduped_idx])
     weights <- 1 + deduped_logp
-    sampled <- if (!is.null(seed)) {
-      withr::with_seed(seed,
-        sample(deduped_idx, n_rest_target, prob = weights / sum(weights)))
-    } else {
-      sample(deduped_idx, n_rest_target, prob = weights / sum(weights))
+    # Weighted sampling without replacement via exponential keys
+    # (Efraimidis-Spirakis): each item gets key = rexp(1) / weight and the
+    # smallest keys are selected. This is O(n log n) and avoids the
+    # O(target * n) cost of sample(prob = ...) for large targets.
+    pick <- function() {
+      keys <- stats::rexp(length(deduped_idx)) / weights
+      deduped_idx[order(keys)[seq_len(n_rest_target)]]
     }
+    sampled <- if (!is.null(seed)) withr::with_seed(seed, pick()) else pick()
     final_idx <- sort(c(keep_idx, sampled))
   } else {
     final_idx <- sort(c(keep_idx, deduped_idx))
