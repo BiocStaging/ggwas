@@ -53,7 +53,7 @@
 #' manhattan_plot(example_gwas, colors = gwas_palette("lancet")) + theme_science()
 #'
 #' # Subset chromosomes
-#' manhattan_plot(example_gwas, chromosomes = 1:10)
+#' manhattan_plot(example_gwas, chromosomes = seq_len(10))
 #'
 #' # NEJM palette
 #' manhattan_plot(example_gwas, colors = gwas_palette("nejm"), label_top_n = 3)

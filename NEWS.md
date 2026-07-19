@@ -1,5 +1,7 @@
 # ggwas 0.99.3
 
+* Added GRanges interoperability: `as_granges()` exports results to a
+  Bioconductor GRanges, and `as_gwas_data()` now accepts GRanges input
 * Added `trumpet_plot()`: effect size versus minor allele frequency with
   statistical-power contours showing which variants a study can detect
 * Added `forest_plot()` for effect estimates with confidence intervals across

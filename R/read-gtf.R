@@ -17,16 +17,9 @@
 #'   `locus_plot(gene_data = ...)`.
 #' @export
 #' @examples
-#' \dontrun{
-#' # Ensembl GTF
-#' genes <- read_gtf("Homo_sapiens.GRCh38.110.gtf.gz")
-#'
-#' # Use with gene_track
-#' gene_track(genes, region_chr = 6, region_start = 25e6, region_end = 35e6)
-#'
-#' # GFF3 format
-#' genes <- read_gtf("gencode.v44.annotation.gff3.gz")
-#' }
+#' f <- system.file("extdata", "example.gtf", package = "ggwas")
+#' genes <- read_gtf(f)
+#' head(genes)
 read_gtf <- function(path,
                      feature_type = "gene",
                      gene_name_attr = c("gene_name", "Name", "gene"),
@@ -53,7 +46,7 @@ read_gtf <- function(path,
                       gene_id = character()))
   }
 
-  is_gff3 <- any(grepl("=", gtf$attributes[1:min(5, nrow(gtf))]))
+  is_gff3 <- any(grepl("=", gtf$attributes[seq_len(min(5, nrow(gtf)))]))
 
   if (is_gff3) {
     parse_fn <- .parse_gff3_attributes

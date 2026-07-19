@@ -25,7 +25,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r vig-01, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -48,8 +48,8 @@ multi-panel figures.
 
 `ggwas` was designed with three goals:
 
-1. **Comprehensive coverage**: 17 plot types in one package,
-   including novel visualizations not available elsewhere.
+1. **Broad coverage**: 20 plot types in one package, including views not
+   found in other GWAS plotting packages.
 2. **Publication-ready defaults**: sensible colors, proper axis formatting,
    and built-in journal themes so plots look good without tweaking.
 3. **Performance at scale**: smart downsampling handles 10M+ variant datasets
@@ -64,7 +64,7 @@ exactly as you would with any other ggplot.
 
 ## Installation
 
-```{r eval=FALSE}
+```{r vig-02, eval=FALSE}
 # From GitHub
 pak::pak("bczech/ggwas")
 
@@ -78,7 +78,7 @@ The fastest way to load GWAS results is `read_gwas_table()`, which
 auto-detects common column naming conventions (CHR/CHROM/#CHROM,
 BP/POS/GENPOS, P/PVALUE/LOG10P, etc.):
 
-```{r}
+```{r vig-08}
 library(ggwas)
 library(ggplot2)
 
@@ -91,7 +91,7 @@ and a custom print method showing key QC metrics at a glance.
 
 For specific tools, dedicated readers handle format quirks automatically:
 
-```{r eval=FALSE}
+```{r vig-03, eval=FALSE}
 gwas <- read_gwas_table("results.txt")       # auto-detect
 gwas <- read_plink_assoc("results.assoc")    # PLINK
 gwas <- read_plink_linear("results.assoc.linear")
@@ -103,7 +103,7 @@ gwas <- read_gemma("results.assoc.txt")      # GEMMA
 You can also pass any `data.frame` directly, specifying non-standard
 column names:
 
-```{r eval=FALSE}
+```{r vig-04, eval=FALSE}
 manhattan_plot(my_df, chr = "chrom", bp = "position", p = "pval")
 ```
 
@@ -706,7 +706,7 @@ snp_density(example_gwas, bin_size = 5e6,
 Built-in chromosome data is available for human, mouse, and cattle.
 For other species, use `chr_info_ucsc()` to fetch data from UCSC:
 
-```{r eval=FALSE}
+```{r vig-05, eval=FALSE}
 # Built-in (instant, offline)
 snp_density(gwas, chr_info = chr_info_human())   # hg38
 snp_density(gwas, chr_info = chr_info_mouse())   # mm39
@@ -740,7 +740,7 @@ are the most convincing signals.
 ggwas ships with 14 palettes covering different use cases: colorblind-safe
 defaults, journal-inspired schemes, and RColorBrewer integrations:
 
-```{r}
+```{r vig-09}
 gwas_palettes()
 gwas_palette("nature", n = 5)
 ```
@@ -785,7 +785,7 @@ cloud of non-significant points. The resulting plot is visually
 indistinguishable from plotting all points, but renders in seconds rather
 than minutes:
 
-```{r eval=FALSE}
+```{r vig-06, eval=FALSE}
 manhattan_plot(large_gwas)                        # auto (target: 200k points)
 manhattan_plot(large_gwas, downsample = FALSE)    # all points (slow)
 manhattan_plot(large_gwas, downsample_n = 500000) # custom target
@@ -814,7 +814,7 @@ p1 / (p2 | p3) + plot_layout(heights = c(2, 1))
 
 Standard ggplot2 export with dimensions matching journal requirements:
 
-```{r eval=FALSE}
+```{r vig-07, eval=FALSE}
 fig <- manhattan_plot(example_gwas, label_top_n = 5) + theme_nature()
 
 # Nature: single column (89 mm width)
@@ -829,6 +829,6 @@ ggsave("figure1.png", fig, width = 10, height = 5, dpi = 300)
 
 # Session info
 
-```{r}
+```{r vig-10}
 sessionInfo()
 ```

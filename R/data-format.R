@@ -3,7 +3,9 @@
 #' Convert a data.frame to the standardized gwas_data format used by all
 #' ggwas plotting functions.
 #'
-#' @param x A data.frame, tibble, or data.table.
+#' @param x A data.frame, tibble, data.table, or a Bioconductor `GRanges`
+#'   object (variant positions are taken from the ranges and association
+#'   statistics from the metadata columns).
 #' @param chr,bp,snp,p,beta,se,a1,a2,af,n,info Column names to use.
 #'   If NULL, auto-detection is attempted.
 #' @param log_p If TRUE, the p-value column contains -log10(p) values that
@@ -28,8 +30,11 @@ as_gwas_data <- function(x,
                          n = NULL,
                          info = NULL,
                          log_p = FALSE) {
+  if (inherits(x, "GRanges")) {
+    x <- .granges_to_df(x)
+  }
   if (!is.data.frame(x)) {
-    cli_abort("{.arg x} must be a data.frame, tibble, or data.table.")
+    cli_abort("{.arg x} must be a data.frame, tibble, data.table, or GRanges.")
   }
 
   x <- as.data.frame(x)
@@ -85,6 +90,57 @@ as_gwas_data <- function(x,
   class(result) <- c("gwas_data", "data.frame")
   validate_gwas_data(result)
   result
+}
+
+#' Convert GWAS results to a GRanges object
+#'
+#' Turn a `gwas_data` object or data.frame into a Bioconductor
+#' \link[GenomicRanges]{GRanges} object, with association statistics stored as
+#' metadata columns, for interoperability with the Bioconductor ecosystem
+#' (e.g. VariantAnnotation, SummarizedExperiment, coloc).
+#'
+#' @param x A `gwas_data` object or a data.frame accepted by [as_gwas_data()].
+#' @param ... Column overrides passed to [as_gwas_data()] when `x` is a plain
+#'   data.frame.
+#' @return A \link[GenomicRanges]{GRanges} object, one width-1 range per
+#'   variant, named by SNP when available.
+#' @export
+#' @examples
+#' data(example_gwas)
+#' gr <- as_granges(example_gwas)
+#' gr
+#'
+#' # Round-trip back to gwas_data
+#' as_gwas_data(gr)
+as_granges <- function(x, ...) {
+  if (!inherits(x, "gwas_data")) x <- as_gwas_data(x, ...)
+  meta_cols <- setdiff(names(x), c("CHR", "BP"))
+  gr <- GenomicRanges::GRanges(
+    seqnames = int_to_chr(x$CHR),
+    ranges = IRanges::IRanges(start = x$BP, width = 1L)
+  )
+  if (length(meta_cols) > 0) {
+    S4Vectors::mcols(gr) <- x[, meta_cols, drop = FALSE]
+  }
+  if ("SNP" %in% names(x)) names(gr) <- as.character(x$SNP)
+  gr
+}
+
+#' @noRd
+.granges_to_df <- function(gr) {
+  df <- data.frame(
+    CHR = as.character(GenomicRanges::seqnames(gr)),
+    BP = GenomicRanges::start(gr),
+    stringsAsFactors = FALSE
+  )
+  md <- S4Vectors::mcols(gr)
+  if (!is.null(md) && ncol(md) > 0) {
+    df <- cbind(df, as.data.frame(md, stringsAsFactors = FALSE))
+  }
+  if (!is.null(names(gr)) && !"SNP" %in% names(df)) {
+    df$SNP <- names(gr)
+  }
+  df
 }
 
 #' Validate a gwas_data object

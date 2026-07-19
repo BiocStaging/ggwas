@@ -37,14 +37,7 @@ positions ready for use with \code{\link[=gene_track]{gene_track()}} or \code{\l
 Supports \code{.gz} compressed files.
 }
 \examples{
-\dontrun{
-# Ensembl GTF
-genes <- read_gtf("Homo_sapiens.GRCh38.110.gtf.gz")
-
-# Use with gene_track
-gene_track(genes, region_chr = 6, region_start = 25e6, region_end = 35e6)
-
-# GFF3 format
-genes <- read_gtf("gencode.v44.annotation.gff3.gz")
-}
+f <- system.file("extdata", "example.gtf", package = "ggwas")
+genes <- read_gtf(f)
+head(genes)
 }

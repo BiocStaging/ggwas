@@ -27,7 +27,7 @@
 #'   chr_info = chr_info_human())
 #'
 #' # Subset to specific chromosomes
-#' density_signal_plot(example_gwas, bin_size = 5e6, chromosomes = 1:5)
+#' density_signal_plot(example_gwas, bin_size = 5e6, chromosomes = seq_len(5))
 #'
 #' # Different palettes
 #' density_signal_plot(example_gwas, bin_size = 5e6,

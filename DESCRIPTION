@@ -16,7 +16,7 @@ BugReports: https://github.com/bczech/ggwas/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-Depends: R (>= 4.4.0)
+Depends: R (>= 4.5.0)
 Imports:
     cli,
     data.table (>= 1.14.0),
@@ -31,7 +31,10 @@ Imports:
     scales,
     stats,
     utils,
-    withr
+    withr,
+    GenomicRanges,
+    IRanges,
+    S4Vectors
 Suggests:
     BiocStyle,
     knitr,

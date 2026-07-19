@@ -22,7 +22,7 @@ chr_info_human <- function(build = "hg38") {
   }
 
   data.frame(
-    chr = 1:22,
+    chr = seq_len(22),
     length = c(
       248956422, 242193529, 198295559, 190214555, 181538259,
       170805979, 159345973, 145138636, 138394717, 133797422,
@@ -57,7 +57,7 @@ chr_info_mouse <- function(build = "mm39") {
   # GRCm39 / mm39: all chromosomes are acrocentric
   # Centromere positions from UCSC gap table (uniform 110kb-3Mb)
   data.frame(
-    chr = 1:19,
+    chr = seq_len(19),
     length = c(
       195154279, 181755017, 159745316, 156860686, 151758149,
       149588044, 144995196, 130127694, 124359700, 130530862,
@@ -79,7 +79,7 @@ chr_info_cattle <- function(build = "ARS-UCD1.2") {
   # ARS-UCD1.2 / bosTau9: all autosomes are acrocentric
   # No centromere annotation in UCSC for this assembly
   data.frame(
-    chr = 1:29,
+    chr = seq_len(29),
     length = c(
       158534110, 136231102, 121005158, 120000601, 121191424,
       119458736, 112638659, 113384836, 105708250, 103308737,

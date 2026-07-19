@@ -21,7 +21,9 @@ as_gwas_data(
 )
 }
 \arguments{
-\item{x}{A data.frame, tibble, or data.table.}
+\item{x}{A data.frame, tibble, data.table, or a Bioconductor \code{GRanges}
+object (variant positions are taken from the ranges and association
+statistics from the metadata columns).}
 
 \item{chr, bp, snp, p, beta, se, a1, a2, af, n, info}{Column names to use.
 If NULL, auto-detection is attempted.}

@@ -99,7 +99,11 @@ effect_compare_plot <- function(gwas1, gwas2,
          title = title) +
     theme_gwas()
 
-  r <- suppressWarnings(stats::cor(m$b1, m$b2, use = "complete.obs"))
+  r <- if (stats::sd(m$b1) > 0 && stats::sd(m$b2) > 0) {
+    stats::cor(m$b1, m$b2, use = "complete.obs")
+  } else {
+    NA_real_
+  }
   if (is.finite(r)) {
     plt <- plt + labs(subtitle = sprintf("Pearson r = %.2f (%d shared variants)",
                                           r, nrow(m)))
