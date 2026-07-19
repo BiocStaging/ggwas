@@ -54,7 +54,7 @@ chr_info_mouse <- function(build = "mm39") {
     cli_abort("Only {.val mm39} build is currently supported.")
   }
 
-  # GRCm39 / mm39 — all chromosomes are acrocentric
+  # GRCm39 / mm39: all chromosomes are acrocentric
   # Centromere positions from UCSC gap table (uniform 110kb-3Mb)
   data.frame(
     chr = 1:19,
@@ -76,7 +76,7 @@ chr_info_cattle <- function(build = "ARS-UCD1.2") {
     cli_abort("Only {.val ARS-UCD1.2} (bosTau9) build is currently supported.")
   }
 
-  # ARS-UCD1.2 / bosTau9 — all autosomes are acrocentric
+  # ARS-UCD1.2 / bosTau9: all autosomes are acrocentric
   # No centromere annotation in UCSC for this assembly
   data.frame(
     chr = 1:29,

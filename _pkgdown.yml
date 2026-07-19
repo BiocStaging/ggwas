@@ -8,7 +8,7 @@ template:
     border-radius: 0.5rem
 
 home:
-  title: "ggwas — Modern GWAS Visualizations"
+  title: "ggwas: Modern GWAS Visualizations"
   description: >
     Comprehensive ggplot2-based toolkit for visualizing GWAS results.
     Manhattan, QQ, Miami, PheWAS, fine-mapping, genetic correlations, and more.

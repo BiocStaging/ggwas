@@ -9,7 +9,7 @@ Description: Create publication-ready visualizations for genome-wide association
     and density-signal comparison plots.
     Reads PLINK, REGENIE, GCTA, and GEMMA formats natively.
     All plot functions return 'ggplot2' objects for full customization.
-    Smart downsampling handles datasets with 10 million+ variants efficiently.
+    Smart downsampling handles datasets with 10 million+ variants.
 License: MIT + file LICENSE
 URL: https://github.com/bczech/ggwas
 BugReports: https://github.com/bczech/ggwas/issues

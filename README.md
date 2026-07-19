@@ -4,21 +4,20 @@
 [![R-CMD-check](https://github.com/bczech/ggwas/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bczech/ggwas/actions/workflows/R-CMD-check.yaml) [![Codecov](https://codecov.io/gh/bczech/ggwas/graph/badge.svg)](https://codecov.io/gh/bczech/ggwas) [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20815110-blue)](https://doi.org/10.5281/zenodo.20815110) [![pkgdown](https://img.shields.io/badge/docs-pkgdown-38EBC1)](https://bczech.github.io/ggwas/)
 <!-- badges: end -->
 
-Modern, fast, and fully customizable GWAS visualizations built on
-**ggplot2**. Designed for publication-ready figures with sensible defaults
-and journal-specific themes.
+Fast, customizable GWAS visualizations built on **ggplot2**, with sensible
+defaults and journal-specific themes for publication-ready figures.
 
 ## Key features
 
-- **17 plot types** — from classic Manhattan and QQ to post-GWAS visualizations (PheWAS, colocalization, fine-mapping, genetic correlations, SNP density karyogram)
-- **Genomic tracks** — composable gene annotation panels from GTF/GFF3 files with strand arrows and highlighting
+- **17 plot types**: from classic Manhattan and QQ to post-GWAS visualizations (PheWAS, colocalization, fine-mapping, genetic correlations, SNP density karyogram)
+- **Genomic tracks**: composable gene annotation panels from GTF/GFF3 files with strand arrows and highlighting
 - **Broken y-axis** for Manhattan plots with extreme p-values (`y_truncate`)
 - **Effect-size confidence** mode showing |beta| - 2*SE instead of p-values (`y_metric = "beta_min"`)
 - **Smart downsampling** for 10M+ variant datasets
 - **Journal themes** (Nature, Science, Cell, PLOS) and 14 color palettes
 - **Gene annotation** with automatic nearest-gene mapping
 - **Auto-detects** column names from PLINK, REGENIE, GCTA, GEMMA, and generic files
-- **Fully composable** — every function returns a ggplot object
+- **Fully composable**: every function returns a ggplot object
 
 ## Gallery
 
@@ -41,7 +40,6 @@ and journal-specific themes.
 | **Locus zoom** | **Effect-size confidence** |
 | <img src="man/figures/example_locus.png" width="400" /> | <img src="man/figures/example_beta_min.png" width="400" /> |
 | **Genetic architecture** | **Journal themes** |
-| <img src="man/figures/example_architecture.png" width="400" /> | <img src="man/figures/example_themes.png" width="400" /> |
 | <img src="man/figures/example_architecture.png" width="400" /> | <img src="man/figures/example_themes.png" width="400" /> |
 
 Full documentation with worked examples: **https://bczech.github.io/ggwas/**
@@ -86,7 +84,7 @@ pak::pak("bczech/ggwas")
 ```r
 library(ggwas)
 
-# Read any GWAS results file — columns auto-detected
+# Read any GWAS results file (columns auto-detected)
 gwas <- read_gwas_table("my_results.txt")
 
 # Manhattan plot
@@ -98,7 +96,7 @@ manhattan_genes(gwas, genes = my_gene_table, gene_top_n = 10)
 # QQ plot with confidence band and lambda
 qq_plot(gwas, show_lambda = TRUE)
 
-# Miami plot — discovery vs replication
+# Miami plot: discovery vs replication
 miami_plot(discovery, replication,
            top_title = "Discovery", bottom_title = "Replication")
 
@@ -199,7 +197,7 @@ manhattan_plot(gwas, colors = gwas_palette("nature"))
 ## Performance
 
 Smart downsampling kicks in automatically for large datasets. It preserves
-all significant variants and bins the non-significant background — the plot
+all significant variants and bins the non-significant background. The plot
 looks identical but renders in seconds instead of minutes:
 
 | Variants | qqman | ggwas | Speedup |

@@ -58,7 +58,7 @@ coloc_plot(
 A patchwork composition of two locus plots.
 }
 \description{
-Two association signals on a shared genomic coordinate axis — the
+Two association signals on a shared genomic coordinate axis. This is the
 standard way to visually assess whether a GWAS signal and an eQTL
 (or two GWAS traits) share the same causal variant.
 }
