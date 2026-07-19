@@ -20,7 +20,7 @@ A \code{gwas_data} object.
 Read GEMMA association results
 }
 \examples{
-\dontrun{
-gwas <- read_gemma("my_results.assoc.txt")
-}
+f <- system.file("extdata", "example_gemma.assoc.txt", package = "ggwas")
+gwas <- read_gemma(f)
+gwas
 }

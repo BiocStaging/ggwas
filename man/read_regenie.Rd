@@ -18,7 +18,7 @@ A \code{gwas_data} object.
 Read REGENIE results
 }
 \examples{
-\dontrun{
-gwas <- read_regenie("my_results.regenie")
-}
+f <- system.file("extdata", "example_regenie.regenie", package = "ggwas")
+gwas <- read_regenie(f)
+gwas
 }

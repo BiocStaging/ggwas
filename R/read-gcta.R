@@ -5,9 +5,9 @@
 #' @return A `gwas_data` object.
 #' @export
 #' @examples
-#' \dontrun{
-#' gwas <- read_gcta_mlma("my_results.mlma")
-#' }
+#' f <- system.file("extdata", "example_gcta.mlma", package = "ggwas")
+#' gwas <- read_gcta_mlma(f)
+#' gwas
 read_gcta_mlma <- function(file, ...) {
   dt <- data.table::fread(file, header = TRUE, data.table = FALSE, ...)
   cli_inform("Read {format(nrow(dt), big.mark = ',')} variants from {.file {basename(file)}}")

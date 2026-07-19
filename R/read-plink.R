@@ -22,9 +22,9 @@ read_plink_assoc <- function(file, ...) {
 #' @return A `gwas_data` object.
 #' @export
 #' @examples
-#' \dontrun{
-#' gwas <- read_plink_linear("my_results.assoc.linear")
-#' }
+#' f <- system.file("extdata", "example_plink.assoc.linear", package = "ggwas")
+#' gwas <- read_plink_linear(f)
+#' gwas
 read_plink_linear <- function(file, test = "ADD", ...) {
   dt <- data.table::fread(file, header = TRUE, data.table = FALSE, ...)
   if ("TEST" %in% names(dt) && !is.null(test)) {
@@ -42,9 +42,9 @@ read_plink_linear <- function(file, test = "ADD", ...) {
 #' @return A `gwas_data` object.
 #' @export
 #' @examples
-#' \dontrun{
-#' gwas <- read_plink_logistic("my_results.assoc.logistic")
-#' }
+#' f <- system.file("extdata", "example_plink.assoc.logistic", package = "ggwas")
+#' gwas <- read_plink_logistic(f)
+#' gwas
 read_plink_logistic <- function(file, test = "ADD", ...) {
 
   dt <- data.table::fread(file, header = TRUE, data.table = FALSE, ...)

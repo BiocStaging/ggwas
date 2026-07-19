@@ -20,7 +20,7 @@ A \code{gwas_data} object.
 Read PLINK linear regression results
 }
 \examples{
-\dontrun{
-gwas <- read_plink_linear("my_results.assoc.linear")
-}
+f <- system.file("extdata", "example_plink.assoc.linear", package = "ggwas")
+gwas <- read_plink_linear(f)
+gwas
 }

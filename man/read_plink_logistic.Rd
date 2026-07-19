@@ -20,7 +20,7 @@ A \code{gwas_data} object.
 Read PLINK logistic regression results
 }
 \examples{
-\dontrun{
-gwas <- read_plink_logistic("my_results.assoc.logistic")
-}
+f <- system.file("extdata", "example_plink.assoc.logistic", package = "ggwas")
+gwas <- read_plink_logistic(f)
+gwas
 }

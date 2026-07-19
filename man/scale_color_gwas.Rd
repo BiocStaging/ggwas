@@ -20,3 +20,7 @@ A ggplot2 color scale.
 \description{
 Scale using colorblind-friendly alternating colors for chromosomes.
 }
+\examples{
+scale_color_gwas("nature")
+scale_fill_gwas("colorblind")
+}

@@ -36,7 +36,7 @@ gwas_palette <- function(name = "default", n = NULL, type = "alternating") {
 
   if (type == "alternating" && length(pal) > 2 &&
       name %in% c("default", "colorblind", "vibrant", "pastel", "dark")) {
-    pal <- pal[1:2]
+    pal <- pal[seq_len(2)]
   }
 
   if (!is.null(n)) {
@@ -91,6 +91,9 @@ gwas_palettes <- function() {
 #' @param ... Additional arguments passed to [ggplot2::scale_color_manual()].
 #' @return A ggplot2 color scale.
 #' @export
+#' @examples
+#' scale_color_gwas("nature")
+#' scale_fill_gwas("colorblind")
 scale_color_gwas <- function(palette = "colorblind", ...) {
   colors <- gwas_palette(palette)
   n_chr <- 26

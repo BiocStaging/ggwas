@@ -5,9 +5,9 @@
 #' @return A `gwas_data` object.
 #' @export
 #' @examples
-#' \dontrun{
-#' gwas <- read_regenie("my_results.regenie")
-#' }
+#' f <- system.file("extdata", "example_regenie.regenie", package = "ggwas")
+#' gwas <- read_regenie(f)
+#' gwas
 read_regenie <- function(file, ...) {
   dt <- data.table::fread(file, header = TRUE, data.table = FALSE, ...)
   cli_inform("Read {format(nrow(dt), big.mark = ',')} variants from {.file {basename(file)}}")
