@@ -59,6 +59,9 @@ reference:
       - architecture_plot
       - snp_density
       - density_signal_plot
+      - trumpet_plot
+      - forest_plot
+      - effect_compare_plot
       - chr_info
       - chr_info_ucsc
 
@@ -67,6 +70,7 @@ reference:
     contents:
       - gene_track
       - read_gtf
+      - gene_annotation
       - manhattan_genes
       - annotate_genes
       - highlight_regions

@@ -9,6 +9,7 @@ gene_track(
   region_chr,
   region_start,
   region_end,
+  exon_data = NULL,
   highlight_genes = NULL,
   highlight_color = "#E74C3C",
   label_size = 2.5,
@@ -25,13 +26,18 @@ Optional: strand ("+"/"-").}
 
 \item{region_start, region_end}{Region boundaries in base pairs.}
 
+\item{exon_data}{Optional data.frame of exons (columns chr, start, end,
+gene) matching genes in \code{gene_data} by the \code{gene} column. When supplied,
+genes are drawn with exon structure. Read with
+\code{read_gtf(path, feature_type = "exon")}.}
+
 \item{highlight_genes}{Character vector of gene names to highlight.}
 
 \item{highlight_color}{Color for highlighted genes.}
 
 \item{label_size}{Text size for gene labels.}
 
-\item{track_color}{Default color for gene bars.}
+\item{track_color}{Default color for gene bodies.}
 
 \item{show_strand}{If TRUE, draw arrows indicating gene direction.}
 
@@ -44,8 +50,9 @@ A ggplot object. Compose with a Manhattan or locus plot using
 }
 \description{
 Create a standalone gene annotation panel that can be composed with
-any ggwas plot using patchwork. Genes are displayed as horizontal bars
-with optional strand arrows and labels.
+any ggwas plot using patchwork. Genes are drawn as directional bodies
+with strand arrows and labels; when \code{exon_data} is supplied, each gene is
+rendered as an intron backbone with exon boxes and a strand arrow.
 }
 \examples{
 genes <- data.frame(
@@ -54,15 +61,15 @@ genes <- data.frame(
   strand = c("+", "-", "+")
 )
 
-# Standalone track
+# Gene-body track
 gene_track(genes, region_chr = 1, region_start = 0, region_end = 10e6)
 
-# Compose with Manhattan plot
-data(example_gwas, package = "ggwas")
-p <- locus_plot(example_gwas, region_chr = 1,
-                region_start = 1e6, region_end = 10e6)
-gt <- gene_track(genes, 1, 1e6, 10e6)
-\dontrun{
-patchwork::wrap_plots(p, gt, ncol = 1, heights = c(0.8, 0.2))
-}
+# With exon structure
+exons <- data.frame(
+  chr = 1,
+  start = c(1.0e6, 1.5e6, 5.0e6, 5.6e6, 8.1e6),
+  end   = c(1.1e6, 1.7e6, 5.2e6, 5.9e6, 8.4e6),
+  gene  = c("GeneA", "GeneA", "GeneB", "GeneB", "GeneC")
+)
+gene_track(genes, 1, 0, 10e6, exon_data = exons)
 }

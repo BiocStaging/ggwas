@@ -1,6 +1,6 @@
 Package: ggwas
 Title: Modern 'ggplot2' Visualizations for Genome-Wide Association Studies
-Version: 0.99.2
+Version: 0.99.3
 Authors@R: person("Bartosz", "Czech", email = "bartosz.w.czech@gmail.com",
                   role = c("aut", "cre"), comment = c(ORCID = "0000-0002-9908-3007"))
 Description: Create publication-ready visualizations for genome-wide association
@@ -23,6 +23,7 @@ Imports:
     ggplot2 (>= 3.5.0),
     ggrepel (>= 0.9.0),
     grDevices,
+    grid,
     gridExtra,
     patchwork (>= 1.2.0),
     RColorBrewer,
