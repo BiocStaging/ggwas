@@ -87,6 +87,7 @@ reference:
       - read_gcta_mlma
       - read_gemma
       - as_gwas_data
+      - as_granges
       - validate_gwas_data
 
   - title: "Themes and palettes"

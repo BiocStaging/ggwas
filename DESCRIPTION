@@ -11,7 +11,7 @@ Description: Create publication-ready visualizations for genome-wide association
     All plot functions return 'ggplot2' objects for full customization.
     Smart downsampling handles datasets with 10 million+ variants.
 License: MIT + file LICENSE
-URL: https://github.com/bczech/ggwas
+URL: https://github.com/bczech/ggwas, https://bczech.github.io/ggwas/
 BugReports: https://github.com/bczech/ggwas/issues
 Encoding: UTF-8
 LazyData: true
