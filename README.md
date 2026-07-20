@@ -42,6 +42,10 @@ defaults and journal-specific themes for publication-ready figures.
 | <img src="man/figures/example_locus.png" width="400" /> | <img src="man/figures/example_beta_min.png" width="400" /> |
 | **Genetic architecture** | **Journal themes** |
 | <img src="man/figures/example_architecture.png" width="400" /> | <img src="man/figures/example_themes.png" width="400" /> |
+| **Trumpet plot (power contours)** | **Forest plot** |
+| <img src="man/figures/example_trumpet.png" width="400" /> | <img src="man/figures/example_forest.png" width="400" /> |
+| **Effect comparison** | **Gene track with exons** |
+| <img src="man/figures/example_effect_compare.png" width="400" /> | <img src="man/figures/example_gene_exons.png" width="400" /> |
 
 Full documentation with worked examples: **https://bczech.github.io/ggwas/**
 

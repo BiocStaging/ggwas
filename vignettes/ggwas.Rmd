@@ -663,6 +663,43 @@ there, check for coding errors or population-stratification artifacts:
 architecture_plot(example_gwas, p_threshold = 0.001, label_top_n = 5)
 ```
 
+## Trumpet plot: power to detect
+
+The trumpet plot overlays statistical-power contours on the
+effect-versus-frequency relationship, showing which variants a study of a
+given sample size is powered to detect. The contours flare toward rare
+variants, giving the plot its shape; points below them fall in the region the
+study is underpowered for.
+
+```{r trumpet}
+trumpet_plot(example_gwas, n = 50000, label_top_n = 3)
+```
+
+## Forest plots and cross-study comparison
+
+A forest plot summarizes effect estimates with confidence intervals, for
+example across cohorts or for a set of lead variants:
+
+```{r forest}
+lead <- head(example_gwas[order(example_gwas$P), ], 10)
+forest_plot(lead, order_by = "effect")
+```
+
+`effect_compare_plot()` scatters the effects of two studies on their shared
+variants to assess replication and effect concordance:
+
+```{r effect-compare}
+set.seed(1)
+replication <- example_gwas
+replication$BETA <- replication$BETA + rnorm(nrow(replication), 0, 0.02)
+effect_compare_plot(example_gwas, replication,
+                    labels = c("Discovery", "Replication"), p_threshold = 1e-3)
+```
+
+Regional and gene-labelled plots can use the bundled protein-coding gene
+models via `gene_annotation("GRCh38")` (or `"GRCh37"`), so no GTF download is
+needed; passing `exon_data` to `gene_track()` draws full exon structure.
+
 # Genome-wide density
 
 ## SNP density karyogram
