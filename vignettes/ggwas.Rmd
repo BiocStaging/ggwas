@@ -29,10 +29,12 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.width = 8,
-  fig.height = 5,
+  fig.width = 7,
+  fig.height = 4.2,
   out.width = "100%",
-  dpi = 120
+  dpi = 72,
+  dev = "png",
+  dev.args = list(type = "cairo-png")
 )
 ```
 
