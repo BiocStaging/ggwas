@@ -51,10 +51,18 @@ forest_plot <- function(data,
 
   order_by <- match.arg(order_by)
   data <- as.data.frame(data)
+
+  # Resolve default column names case-insensitively (e.g. lowercase headers).
+  if (missing(effect) && !effect %in% names(data)) {
+    effect <- .na_null(.match_col(names(data), .beta_patterns)) %||% effect
+  }
+  if (missing(se) && !se %in% names(data)) {
+    se <- .na_null(.match_col(names(data), .se_patterns)) %||% se
+  }
   if (!effect %in% names(data)) cli_abort("Column {.field {effect}} not found.")
   if (!se %in% names(data)) cli_abort("Column {.field {se}} not found.")
 
-  if (is.null(label)) label <- if ("SNP" %in% names(data)) "SNP" else NULL
+  if (is.null(label)) label <- .na_null(.match_col(names(data), .snp_patterns))
 
   d <- data.frame(
     label = if (is.null(label)) as.character(seq_len(nrow(data))) else as.character(data[[label]]),

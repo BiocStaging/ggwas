@@ -37,16 +37,23 @@
 .n_patterns <- c("N", "n", "NMISS", "n_complete_samples", "OBS_CT")
 .info_patterns <- c("INFO", "info", "R2", "r2")
 
+# Case-insensitive lookup of the first matching column name.
+#' @noRd
+.match_col <- function(header, patterns) {
+  idx <- match(tolower(patterns), tolower(header))
+  matched <- which(!is.na(idx))[1]
+  if (!is.na(matched)) header[idx[matched]] else NA_character_
+}
+
+# Return NULL instead of NA, for optional column resolution.
+#' @noRd
+.na_null <- function(x) if (length(x) == 0 || is.na(x)) NULL else x
+
 #' Detect column mapping from header names
 #' @noRd
 detect_columns <- function(header) {
   mapping <- list()
-  # Case-insensitive matching so lowercase headers (pos, chrom, alt, ...) work.
-  match_col <- function(patterns) {
-    idx <- match(tolower(patterns), tolower(header))
-    matched <- which(!is.na(idx))[1]
-    if (!is.na(matched)) header[idx[matched]] else NA_character_
-  }
+  match_col <- function(patterns) .match_col(header, patterns)
 
   mapping$CHR <- match_col(.chr_patterns)
   mapping$BP <- match_col(.bp_patterns)

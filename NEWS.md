@@ -1,11 +1,16 @@
+# ggwas 0.99.5
+
+* `trumpet_plot()`, `forest_plot()` and `effect_compare_plot()` match column
+  names case-insensitively, like `as_gwas_data()`
+
 # ggwas 0.99.4
 
 * Column auto-detection is now case-insensitive, so lowercase headers
   (`pos`, `#chrom`, `alt`, ...) are recognized
 * `-log10(p)` columns (`LOG10P`, `neg_log_pvalue`, ...) are auto-detected and
   back-transformed
-* Fixed an error ("Multiple quantities for pluralization") when more than one
-  required column could not be detected; the message is now clear and actionable
+* Fixed a crash when more than one required column could not be detected; the
+  error now lists the missing columns
 
 # ggwas 0.99.3
 

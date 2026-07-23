@@ -43,13 +43,13 @@ effect_compare_plot <- function(gwas1, gwas2,
 
   prep <- function(g) {
     g <- as.data.frame(g)
-    scol <- if (!is.null(snp)) snp else if ("SNP" %in% names(g)) "SNP" else NULL
-    bcol <- if (!is.null(beta)) beta else if ("BETA" %in% names(g)) "BETA" else NULL
+    scol <- if (!is.null(snp)) snp else .na_null(.match_col(names(g), .snp_patterns))
+    bcol <- if (!is.null(beta)) beta else .na_null(.match_col(names(g), .beta_patterns))
     if (is.null(scol) || is.null(bcol)) {
       cli_abort("Both datasets need SNP and BETA columns (or specify via {.arg snp} and {.arg beta}).")
     }
-    secol <- if (!is.null(se)) se else if ("SE" %in% names(g)) "SE" else NULL
-    pcol <- if (!is.null(p)) p else if ("P" %in% names(g)) "P" else NULL
+    secol <- if (!is.null(se)) se else .na_null(.match_col(names(g), .se_patterns))
+    pcol <- if (!is.null(p)) p else .na_null(.match_col(names(g), .p_patterns))
     data.frame(
       SNP = as.character(g[[scol]]),
       b = g[[bcol]],

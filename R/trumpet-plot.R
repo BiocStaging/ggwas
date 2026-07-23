@@ -55,9 +55,10 @@ trumpet_plot <- function(data,
                          title = NULL) {
 
   raw <- as.data.frame(data)
-  bcol <- if (!is.null(beta)) beta else if ("BETA" %in% names(raw)) "BETA" else NULL
-  acol <- if (!is.null(af)) af else if ("AF" %in% names(raw)) "AF" else NULL
-  pcol <- if (!is.null(p)) p else if ("P" %in% names(raw)) "P" else NULL
+  bcol <- if (!is.null(beta)) beta else .na_null(.match_col(names(raw), .beta_patterns))
+  acol <- if (!is.null(af)) af else .na_null(.match_col(names(raw), .af_patterns))
+  pcol <- if (!is.null(p)) p else .na_null(.match_col(names(raw), .p_patterns))
+  scol <- .na_null(.match_col(names(raw), .snp_patterns))
   if (is.null(bcol) || is.null(acol)) {
     cli_abort("Need effect and allele-frequency columns; specify via {.arg beta} and {.arg af}.")
   }
@@ -78,7 +79,7 @@ trumpet_plot <- function(data,
     BETA = raw[[bcol]],
     AF = raw[[acol]],
     P = if (!is.null(pcol)) raw[[pcol]] else NA_real_,
-    SNP = if ("SNP" %in% names(raw)) as.character(raw$SNP) else NA_character_,
+    SNP = if (!is.null(scol)) as.character(raw[[scol]]) else NA_character_,
     stringsAsFactors = FALSE
   )
   data <- data[!is.na(data$BETA) & !is.na(data$AF), , drop = FALSE]

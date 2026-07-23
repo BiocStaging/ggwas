@@ -30,3 +30,16 @@ test_that("missing required columns give a clear error (not a cli crash)", {
   bad <- data.frame(foo = 1:3, bar = 4:6, baz = 7:9)
   expect_error(as_gwas_data(bad), "Cannot detect required column")
 })
+
+test_that("plot functions resolve columns case-insensitively", {
+  df <- data.frame(
+    chrom = 1L, pos = seq_len(50), snp = paste0("rs", seq_len(50)),
+    beta = stats::rnorm(50), se = stats::runif(50, 0.02, 0.06),
+    af = stats::runif(50, 0.05, 0.5), p = stats::runif(50)
+  )
+  expect_s3_class(trumpet_plot(df, n = 10000), "ggplot")
+  expect_s3_class(forest_plot(utils::head(df, 8)), "ggplot")
+  df2 <- df
+  df2$beta <- df2$beta + stats::rnorm(50, 0, 0.01)
+  expect_s3_class(effect_compare_plot(df, df2), "ggplot")
+})
