@@ -47,14 +47,26 @@ as_gwas_data <- function(x,
   user_map <- user_map[!vapply(user_map, is.null, logical(1))]
 
   auto_map <- detect_columns(header)
+  p_is_log <- isTRUE(attr(auto_map, "P_is_log"))
   mapping <- auto_map
   mapping[names(user_map)] <- user_map
 
   required <- c("CHR", "BP", "P")
   missing_req <- setdiff(required, names(mapping))
   if (length(missing_req) > 0) {
-    cli_abort("Cannot detect required column{?s}: {.field {missing_req}}.
-              Specify manually via {.arg {tolower(missing_req)}} argument.")
+    cli_abort(c(
+      "Cannot detect required column{?s}: {.field {missing_req}}.",
+      "i" = "Rename them to standard names, or pass them explicitly via the {.arg chr}, {.arg bp} and {.arg p} arguments."
+    ))
+  }
+
+  # A -log10(p) column (e.g. LOG10P, neg_log_pvalue) was auto-detected: treat
+  # it as -log10(p) unless the user supplied the p column or log_p explicitly.
+  if (p_is_log && is.null(p) && !isTRUE(log_p)) {
+    log_p <- TRUE
+    cli_inform(
+      "Detected a -log10 p-value column ({.field {mapping$P}}); interpreting it as -log10(p)."
+    )
   }
 
   result <- data.frame(row.names = seq_len(nrow(x)))

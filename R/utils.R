@@ -14,11 +14,15 @@
   "P", "PVALUE", "P_VALUE", "p_value", "pvalue", "p.value",
   "P_BOLT_LMM_INF", "P_BOLT_LMM", "p_wald", "p_lrt", "Pvalue"
 )
+.logp_patterns <- c(
+  "LOG10P", "neg_log_pvalue", "neg_log10_pvalue", "neg_log10_p",
+  "log10_p", "log10p", "mlog10p", "minus_log10_p", "neglog10p"
+)
 .beta_patterns <- c(
   "BETA", "beta", "b", "Effect", "EFFECT", "effect_size", "Beta"
 )
 .se_patterns <- c(
-  "SE", "se", "StdErr", "standard_error", "se_beta"
+  "SE", "StdErr", "standard_error", "se_beta", "stderr_beta", "sebeta"
 )
 .a1_patterns <- c(
   "A1", "ALLELE1", "allele1", "ALT", "effect_allele", "Allele1"
@@ -27,7 +31,8 @@
   "A2", "ALLELE0", "allele0", "REF", "other_allele", "Allele2"
 )
 .af_patterns <- c(
-  "AF", "A1FREQ", "Freq", "MAF", "allele_frequency", "FRQ", "af"
+  "AF", "A1FREQ", "Freq", "MAF", "allele_frequency", "FRQ",
+  "alt_allele_freq", "effect_allele_frequency", "eaf"
 )
 .n_patterns <- c("N", "n", "NMISS", "n_complete_samples", "OBS_CT")
 .info_patterns <- c("INFO", "info", "R2", "r2")
@@ -36,8 +41,9 @@
 #' @noRd
 detect_columns <- function(header) {
   mapping <- list()
+  # Case-insensitive matching so lowercase headers (pos, chrom, alt, ...) work.
   match_col <- function(patterns) {
-    idx <- match(patterns, header)
+    idx <- match(tolower(patterns), tolower(header))
     matched <- which(!is.na(idx))[1]
     if (!is.na(matched)) header[idx[matched]] else NA_character_
   }
@@ -45,7 +51,22 @@ detect_columns <- function(header) {
   mapping$CHR <- match_col(.chr_patterns)
   mapping$BP <- match_col(.bp_patterns)
   mapping$SNP <- match_col(.snp_patterns)
-  mapping$P <- match_col(.p_patterns)
+
+  # Prefer a raw p-value column; fall back to a -log10(p) column and flag it.
+  p_is_log <- FALSE
+  p_raw <- match_col(.p_patterns)
+  if (!is.na(p_raw)) {
+    mapping$P <- p_raw
+  } else {
+    p_log <- match_col(.logp_patterns)
+    if (!is.na(p_log)) {
+      mapping$P <- p_log
+      p_is_log <- TRUE
+    } else {
+      mapping$P <- NA_character_
+    }
+  }
+
   mapping$BETA <- match_col(.beta_patterns)
   mapping$SE <- match_col(.se_patterns)
   mapping$A1 <- match_col(.a1_patterns)
@@ -53,7 +74,10 @@ detect_columns <- function(header) {
   mapping$AF <- match_col(.af_patterns)
   mapping$N <- match_col(.n_patterns)
   mapping$INFO <- match_col(.info_patterns)
-  mapping[!is.na(mapping)]
+
+  out <- mapping[!is.na(mapping)]
+  attr(out, "P_is_log") <- p_is_log
+  out
 }
 
 #' Parse chromosome to integer
