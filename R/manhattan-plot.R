@@ -29,11 +29,13 @@
 #'   interval overlaps zero are excluded. This highlights variants with
 #'   large, robust effect sizes rather than just small p-values.
 #' @param y_limit Upper y-axis limit for -log10(p).
-#' @param y_truncate Break the y-axis to cut out a middle region. Either
-#'   a single value (break point, resumes at max value) or a vector of
-#'   two values `c(break_from, resume_at)` defining the cut range in
-#'   -log10(p) units. For example, `y_truncate = c(15, 50)` shows 0-15
-#'   at full scale, cuts 15-50, then shows 50+ above the break.
+#' @param y_truncate Break the y-axis for datasets with extreme peaks. A
+#'   single value shows 0 to that value at full scale and compresses
+#'   everything above it into a band above the break (nothing is dropped),
+#'   e.g. `y_truncate = 15`. A vector of two values `c(break_from, resume_at)`
+#'   instead cuts out the middle region: `y_truncate = c(15, 50)` shows 0-15
+#'   at full scale, drops 15-50, then shows 50+ above the break. Units are
+#'   -log10(p).
 #' @param title Plot title.
 #' @return A ggplot object.
 #' @export
@@ -213,9 +215,10 @@ manhattan_plot <- function(data,
 
   if (!is.null(y_truncate)) {
     if (length(y_truncate) == 1) {
+      # Single value: full scale below the break, everything above compressed
+      # into the top band (nothing is dropped).
       break_from <- y_truncate
-      max_val <- max(data$LOG10P, na.rm = TRUE)
-      resume_at <- ceiling(max_val / 10) * 10
+      resume_at <- y_truncate
     } else {
       break_from <- y_truncate[1]
       resume_at <- y_truncate[2]
@@ -227,7 +230,12 @@ manhattan_plot <- function(data,
     gap <- top_height * 0.15
 
     data_below <- data[data$LOG10P <= break_from, , drop = FALSE]
-    data_above <- data[data$LOG10P >= resume_at, , drop = FALSE]
+    above_cond <- if (resume_at > break_from) {
+      data$LOG10P >= resume_at
+    } else {
+      data$LOG10P > break_from
+    }
+    data_above <- data[above_cond, , drop = FALSE]
     data_below$LOG10P_plot <- data_below$LOG10P
     if (nrow(data_above) > 0) {
       above_range <- max(max_val - resume_at, 1)

@@ -79,11 +79,13 @@ large, robust effect sizes rather than just small p-values.}
 
 \item{y_limit}{Upper y-axis limit for -log10(p).}
 
-\item{y_truncate}{Break the y-axis to cut out a middle region. Either
-a single value (break point, resumes at max value) or a vector of
-two values \code{c(break_from, resume_at)} defining the cut range in
--log10(p) units. For example, \code{y_truncate = c(15, 50)} shows 0-15
-at full scale, cuts 15-50, then shows 50+ above the break.}
+\item{y_truncate}{Break the y-axis for datasets with extreme peaks. A
+single value shows 0 to that value at full scale and compresses
+everything above it into a band above the break (nothing is dropped),
+e.g. \code{y_truncate = 15}. A vector of two values \code{c(break_from, resume_at)}
+instead cuts out the middle region: \code{y_truncate = c(15, 50)} shows 0-15
+at full scale, drops 15-50, then shows 50+ above the break. Units are
+-log10(p).}
 
 \item{title}{Plot title.}
 }

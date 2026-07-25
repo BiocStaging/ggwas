@@ -103,7 +103,7 @@ gwas_summary <- function(data,
         plot_list[[1]],
         patchwork::wrap_plots(plot_list[[2]], plot_list[[4]], ncol = 2),
         plot_list[[3]],
-        ncol = 1, heights = c(3, 2, 1.5)
+        ncol = 1, heights = c(2.5, 2, 2.2)
       )
     } else {
       design <- patchwork::wrap_plots(
@@ -132,25 +132,37 @@ gwas_summary <- function(data,
   design
 }
 
-#' Create top hits table panel
+#' Build the formatted top-hits table
 #' @noRd
-.make_top_hits_panel <- function(data, n_top, genome_wide) {
+.top_hits_table <- function(data, n_top) {
   top <- data[order(data$P), , drop = FALSE]
   top <- utils::head(top, n_top)
 
-  display_cols <- intersect(c("SNP", "CHR", "P", "BETA"), names(top))
+  display_cols <- intersect(c("SNP", "CHR", "BP", "P", "BETA"), names(top))
   top <- top[, display_cols, drop = FALSE]
 
-  top$CHR <- int_to_chr(top$CHR)
-  top$BP <- format(top$BP, big.mark = ",")
-  top$P <- formatC(top$P, format = "e", digits = 2)
+  if ("CHR" %in% names(top)) top$CHR <- int_to_chr(top$CHR)
+  if ("BP" %in% names(top)) top$BP <- format(top$BP, big.mark = ",")
+  if ("P" %in% names(top)) {
+    top$P <- ifelse(top$P == 0, "<1e-300",
+                    formatC(top$P, format = "e", digits = 2))
+  }
   if ("BETA" %in% names(top)) top$BETA <- round(top$BETA, 4)
   if ("SE" %in% names(top)) top$SE <- round(top$SE, 4)
   if ("AF" %in% names(top)) top$AF <- round(top$AF, 3)
 
+  # a plain display table, not a gwas_data object
+  as.data.frame(top, stringsAsFactors = FALSE)
+}
+
+#' Create top hits table panel
+#' @noRd
+.make_top_hits_panel <- function(data, n_top, genome_wide) {
+  top <- .top_hits_table(data, n_top)
+
   table_theme <- gridExtra::ttheme_minimal(
-    base_size = 8,
-    padding = ggplot2::unit(c(3, 4), "mm"),
+    base_size = 7,
+    padding = ggplot2::unit(c(2, 3), "mm"),
     core = list(fg_params = list(hjust = 0, x = 0.05)),
     colhead = list(
       fg_params = list(hjust = 0, x = 0.05, fontface = "bold"),

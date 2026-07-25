@@ -58,3 +58,16 @@ test_that("manhattan_plot y_truncate works as expected", {
   plt <- manhattan_plot(df, y_truncate = 15)
   expect_s3_class(plt, "ggplot")
 })
+
+test_that("single y_truncate compresses high points instead of dropping them", {
+  df <- data.frame(
+    CHR = rep(1:2, each = 50),
+    BP = rep(seq(1000, 50000, length.out = 50), 2),
+    P = runif(100, 0.01, 1),
+    SNP = paste0("rs", 1:100)
+  )
+  # peaks that fall inside the truncated range must all survive
+  df$P[1:4] <- 10^(-c(20, 30, 40, 50))
+  plt <- manhattan_plot(df, y_truncate = 15)
+  expect_true(all(c(20, 30, 40, 50) %in% round(plt$data$LOG10P)))
+})

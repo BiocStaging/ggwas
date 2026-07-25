@@ -14,6 +14,7 @@ Create publication-ready visualizations for genome-wide association studies. Pro
 Useful links:
 \itemize{
   \item \url{https://github.com/bczech/ggwas}
+  \item \url{https://bczech.github.io/ggwas/}
   \item Report bugs at \url{https://github.com/bczech/ggwas/issues}
 }
 

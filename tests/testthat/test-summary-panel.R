@@ -54,3 +54,15 @@ test_that("gwas_summary all four panels", {
     panels = c("manhattan", "qq", "top_hits", "density"))
   expect_true(inherits(plt, "patchwork") || inherits(plt, "ggplot"))
 })
+
+test_that("top-hits table keeps a real base-pair position", {
+  df <- data.frame(
+    CHR = rep(1:2, each = 50),
+    BP = rep(seq(1e6, 50e6, length.out = 50), 2),
+    P = runif(100, 0.01, 1), SNP = paste0("rs", 1:100)
+  )
+  df$P[1] <- 1e-30
+  tab <- .top_hits_table(as_gwas_data(df), n_top = 5)
+  expect_true("BP" %in% names(tab))
+  expect_false(any(tab$BP == "NULL"))
+})
