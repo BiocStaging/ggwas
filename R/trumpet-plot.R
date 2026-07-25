@@ -132,9 +132,11 @@ trumpet_plot <- function(data,
 
   if (!is.null(label_top_n) && any(!is.na(data$P)) && any(!is.na(data$SNP))) {
     top <- utils::head(data[order(data$P), ], label_top_n)
+    # significant hits sit near y = 0; lift labels into the open space above
+    y_hi <- max(data$Y, na.rm = TRUE)
     plt <- plt + .snp_repel(
       aes(x = .data$MAF, y = .data$Y, label = .data$SNP),
-      data = top
+      data = top, ylim = c(y_hi * 0.3, NA)
     )
   }
 

@@ -206,9 +206,11 @@ manhattan_plot <- function(data,
 
   if (!is.null(label_data) && nrow(label_data) > 0 && label_column %in% names(label_data)) {
     label_data <- label_data[!duplicated(label_data[[label_column]]), , drop = FALSE]
+    # push labels up into the empty headroom above the peaks
+    y_hi <- max(data$LOG10P, na.rm = TRUE)
     plt <- plt + .snp_repel(
       aes(x = .data$BP_CUM, y = .data$LOG10P, label = .data[[label_column]]),
-      data = label_data, direction = "both"
+      data = label_data, direction = "both", ylim = c(y_hi * 1.02, NA)
     )
   }
 
@@ -330,7 +332,10 @@ manhattan_plot <- function(data,
       coord_cartesian(ylim = c(0, y_top), clip = "off") +
       annotation_custom(break_grob)
   } else if (!is.null(y_limit)) {
-    plt <- plt + coord_cartesian(ylim = c(0, y_limit))
+    plt <- plt + coord_cartesian(ylim = c(0, y_limit), clip = "off")
+  } else {
+    # let labels pushed into the headroom render even in short panels
+    plt <- plt + coord_cartesian(clip = "off")
   }
 
   plt

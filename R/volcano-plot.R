@@ -90,6 +90,9 @@ volcano_plot <- function(data,
                linetype = "dashed", color = "grey40", linewidth = 0.4) +
     ggplot2::geom_vline(xintercept = 0, linetype = "solid",
                         color = "grey60", linewidth = 0.3) +
+    ggplot2::scale_y_continuous(
+      expand = ggplot2::expansion(mult = c(0.02, 0.1))
+    ) +
     labs(x = expression("Effect size" ~ (hat(beta))),
          y = expression(-log[10](italic(p))),
          title = title) +
@@ -113,9 +116,11 @@ volcano_plot <- function(data,
 
   if (!is.null(label_data) && nrow(label_data) > 0 && "SNP" %in% names(label_data)) {
     label_data <- label_data[!duplicated(label_data$SNP), , drop = FALSE]
+    # lift labels into the headroom above the peak instead of onto the points
+    y_hi <- max(data$LOG10P, na.rm = TRUE)
     plt <- plt + .snp_repel(
       aes(x = .data$BETA, y = .data$LOG10P, label = .data$SNP),
-      data = label_data
+      data = label_data, ylim = c(y_hi * 1.01, NA)
     )
   }
 
