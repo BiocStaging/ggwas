@@ -103,7 +103,7 @@ gwas_summary <- function(data,
         plot_list[[1]],
         patchwork::wrap_plots(plot_list[[2]], plot_list[[4]], ncol = 2),
         plot_list[[3]],
-        ncol = 1, heights = c(2.5, 2, 2.2)
+        ncol = 1, heights = c(2.3, 1.9, 2.4)
       )
     } else {
       design <- patchwork::wrap_plots(
@@ -162,7 +162,7 @@ gwas_summary <- function(data,
 
   table_theme <- gridExtra::ttheme_minimal(
     base_size = 7,
-    padding = ggplot2::unit(c(2, 3), "mm"),
+    padding = ggplot2::unit(c(2.5, 1.6), "mm"),
     core = list(fg_params = list(hjust = 0, x = 0.05)),
     colhead = list(
       fg_params = list(hjust = 0, x = 0.05, fontface = "bold"),
@@ -175,6 +175,8 @@ gwas_summary <- function(data,
   ggplot() +
     ggplot2::theme_void() +
     annotation_custom(grob) +
+    # clip off so the last rows are not cut when the panel is short
+    coord_cartesian(clip = "off") +
     labs(title = "Top Hits")
 }
 

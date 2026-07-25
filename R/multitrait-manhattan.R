@@ -144,11 +144,9 @@ multitrait_manhattan <- function(...,
 
         if (!is.null(label_shared_n) && "SNP" %in% names(shared_data)) {
           top_shared <- utils::head(shared_data[order(shared_data$P), ], label_shared_n)
-          plt <- plt + ggrepel::geom_text_repel(
-            data = top_shared,
+          plt <- plt + .snp_repel(
             aes(x = .data$BP_CUM, y = .data$LOG10P, label = .data$SNP),
-            inherit.aes = FALSE,
-            size = 3, color = shared_color, fontface = "bold"
+            data = top_shared, color = shared_color, fontface = "bold"
           )
         }
       }

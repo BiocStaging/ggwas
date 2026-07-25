@@ -112,10 +112,9 @@ effect_compare_plot <- function(gwas1, gwas2,
   if (!is.null(label_top_n)) {
     m$minp <- pmin(m$p1, m$p2, na.rm = TRUE)
     top <- utils::head(m[order(m$minp), ], label_top_n)
-    plt <- plt + ggrepel::geom_text_repel(
-      data = top, aes(x = .data$b1, y = .data$b2, label = .data$SNP),
-      inherit.aes = FALSE, size = 2.8, max.overlaps = 15,
-      segment.color = "grey50"
+    plt <- plt + .snp_repel(
+      aes(x = .data$b1, y = .data$b2, label = .data$SNP),
+      data = top
     )
   }
 

@@ -79,11 +79,9 @@ architecture_plot <- function(data,
 
   if (!is.null(label_top_n) && "SNP" %in% names(data)) {
     top <- utils::head(data[order(data$P), ], label_top_n)
-    plt <- plt + ggrepel::geom_text_repel(
-      data = top,
+    plt <- plt + .snp_repel(
       aes(x = .data$MAF, y = .data$ABS_BETA, label = .data$SNP),
-      inherit.aes = FALSE,
-      size = 2.8, max.overlaps = 15, segment.color = "grey50"
+      data = top
     )
   }
 

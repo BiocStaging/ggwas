@@ -174,11 +174,9 @@ enrichment_manhattan <- function(data,
     top <- fg[order(fg$P), , drop = FALSE]
     top <- utils::head(top, label_top_n)
     top <- top[!duplicated(top[[label_column]]), , drop = FALSE]
-    plt <- plt + ggrepel::geom_text_repel(
-      data = top,
+    plt <- plt + .snp_repel(
       aes(x = .data$BP_CUM, y = .data$LOG10P, label = .data[[label_column]]),
-      size = 3, max.overlaps = 20, segment.color = "grey40",
-      fontface = "italic"
+      data = top, fontface = "italic"
     )
   }
 

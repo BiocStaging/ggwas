@@ -132,11 +132,9 @@ trumpet_plot <- function(data,
 
   if (!is.null(label_top_n) && any(!is.na(data$P)) && any(!is.na(data$SNP))) {
     top <- utils::head(data[order(data$P), ], label_top_n)
-    plt <- plt + ggrepel::geom_text_repel(
-      data = top,
+    plt <- plt + .snp_repel(
       aes(x = .data$MAF, y = .data$Y, label = .data$SNP),
-      inherit.aes = FALSE,
-      size = 2.8, max.overlaps = 15, segment.color = "grey50"
+      data = top
     )
   }
 

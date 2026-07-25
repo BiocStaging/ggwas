@@ -113,11 +113,9 @@ volcano_plot <- function(data,
 
   if (!is.null(label_data) && nrow(label_data) > 0 && "SNP" %in% names(label_data)) {
     label_data <- label_data[!duplicated(label_data$SNP), , drop = FALSE]
-    plt <- plt + ggrepel::geom_text_repel(
-      data = label_data,
+    plt <- plt + .snp_repel(
       aes(x = .data$BETA, y = .data$LOG10P, label = .data$SNP),
-      inherit.aes = FALSE,
-      size = 3, max.overlaps = 20, segment.color = "grey50"
+      data = label_data
     )
   }
 

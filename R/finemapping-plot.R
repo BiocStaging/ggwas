@@ -128,12 +128,9 @@ finemapping_plot <- function(data,
   if (!is.null(label_pip_above) && "SNP" %in% names(region)) {
     top_pip <- region[region$pip_val >= label_pip_above, , drop = FALSE]
     if (nrow(top_pip) > 0) {
-      plt <- plt + ggrepel::geom_text_repel(
-        data = top_pip,
+      plt <- plt + .snp_repel(
         aes(x = .data$BP / 1e6, y = .data$LOG10P, label = .data$SNP),
-        inherit.aes = FALSE,
-        size = 3, max.overlaps = 15, segment.color = "grey50",
-        fontface = "bold"
+        data = top_pip, fontface = "bold"
       )
     }
   }

@@ -126,12 +126,9 @@ phewas_plot <- function(data,
 
   if (!is.null(label_top_n) && label_column %in% names(data)) {
     top <- utils::head(data[order(data[[p]]), ], label_top_n)
-    plt <- plt + ggrepel::geom_text_repel(
-      data = top,
-      aes(x = .data$x_pos, y = .data$LOG10P,
-          label = .data[[label_column]]),
-      inherit.aes = FALSE,
-      size = 2.8, max.overlaps = 20, segment.color = "grey50"
+    plt <- plt + .snp_repel(
+      aes(x = .data$x_pos, y = .data$LOG10P, label = .data[[label_column]]),
+      data = top
     )
   }
 

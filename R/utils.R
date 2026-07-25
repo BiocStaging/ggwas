@@ -155,3 +155,29 @@ add_cumulative_bp <- function(data) {
   attr(data, "chr_info") <- chr_lengths
   data
 }
+
+#' Shared repel layer for point labels
+#'
+#' One set of ggrepel settings for every plot that labels SNPs or genes, so
+#' labels spread out, always draw a connector, and never sit on the points.
+#' @noRd
+.snp_repel <- function(mapping, data = NULL, size = 2.7, ...) {
+  defaults <- list(
+    mapping = mapping,
+    data = data,
+    inherit.aes = FALSE,
+    size = size,
+    max.overlaps = Inf,
+    box.padding = 0.7,
+    point.padding = 0.3,
+    min.segment.length = 0,
+    segment.color = "grey55",
+    segment.size = 0.25,
+    force = 5,
+    force_pull = 0.3,
+    seed = 42
+  )
+  overrides <- list(...)
+  defaults[names(overrides)] <- overrides
+  do.call(ggrepel::geom_text_repel, defaults)
+}
