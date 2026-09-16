@@ -5,12 +5,16 @@
 \alias{scale_fill_gwas}
 \title{Colorblind-safe chromosome color scale}
 \usage{
-scale_color_gwas(palette = "colorblind", ...)
+scale_color_gwas(palette = "colorblind", chromosomes = NULL, ...)
 
-scale_fill_gwas(palette = "colorblind", ...)
+scale_fill_gwas(palette = "colorblind", chromosomes = NULL, ...)
 }
 \arguments{
 \item{palette}{Palette name from \code{\link[=gwas_palette]{gwas_palette()}}.}
+
+\item{chromosomes}{Chromosome codes present in the data, in genomic order.
+Colors cycle across this set, so non-human karyotypes are handled. When
+\code{NULL}, defaults to the human coding (26 chromosomes).}
 
 \item{...}{Additional arguments passed to \code{\link[ggplot2:scale_color_manual]{ggplot2::scale_color_manual()}}.}
 }

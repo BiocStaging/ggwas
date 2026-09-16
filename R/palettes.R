@@ -88,26 +88,23 @@ gwas_palettes <- function() {
 #' Scale using colorblind-friendly alternating colors for chromosomes.
 #'
 #' @param palette Palette name from [gwas_palette()].
+#' @param chromosomes Chromosome codes present in the data, in genomic order.
+#'   Colors cycle across this set, so non-human karyotypes are handled. When
+#'   `NULL`, defaults to the human coding (26 chromosomes).
 #' @param ... Additional arguments passed to [ggplot2::scale_color_manual()].
 #' @return A ggplot2 color scale.
 #' @export
 #' @examples
 #' scale_color_gwas("nature")
 #' scale_fill_gwas("colorblind")
-scale_color_gwas <- function(palette = "colorblind", ...) {
-  colors <- gwas_palette(palette)
-  n_chr <- 26
-  chr_colors <- rep_len(colors, n_chr)
-  names(chr_colors) <- as.character(seq_len(n_chr))
+scale_color_gwas <- function(palette = "colorblind", chromosomes = NULL, ...) {
+  chr_colors <- .chromosome_colors(gwas_palette(palette), chromosomes)
   scale_color_manual(values = chr_colors, ...)
 }
 
 #' @rdname scale_color_gwas
 #' @export
-scale_fill_gwas <- function(palette = "colorblind", ...) {
-  colors <- gwas_palette(palette)
-  n_chr <- 26
-  chr_colors <- rep_len(colors, n_chr)
-  names(chr_colors) <- as.character(seq_len(n_chr))
+scale_fill_gwas <- function(palette = "colorblind", chromosomes = NULL, ...) {
+  chr_colors <- .chromosome_colors(gwas_palette(palette), chromosomes)
   scale_fill_manual(values = chr_colors, ...)
 }

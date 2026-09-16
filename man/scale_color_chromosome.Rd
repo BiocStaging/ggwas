@@ -5,12 +5,25 @@
 \alias{scale_fill_chromosome}
 \title{Chromosome color scale}
 \usage{
-scale_color_chromosome(colors = c("#1A5276", "#76D7C4"), ...)
+scale_color_chromosome(
+  colors = c("#1A5276", "#76D7C4"),
+  chromosomes = NULL,
+  ...
+)
 
-scale_fill_chromosome(colors = c("#1A5276", "#76D7C4"), ...)
+scale_fill_chromosome(
+  colors = c("#1A5276", "#76D7C4"),
+  chromosomes = NULL,
+  ...
+)
 }
 \arguments{
 \item{colors}{Two-element character vector of alternating colors.}
+
+\item{chromosomes}{Chromosome codes present in the data, in the order they
+appear along the genome. Colors alternate across this set, so any organism
+is handled (e.g. cattle with 29 autosomes plus X coded as 30). When \code{NULL},
+defaults to the human coding (autosomes 1-22 plus X/Y/XY/MT as 23-26).}
 
 \item{...}{Additional arguments passed to \code{\link[ggplot2:scale_color_manual]{ggplot2::scale_color_manual()}}.}
 }

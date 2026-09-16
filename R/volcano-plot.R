@@ -71,7 +71,8 @@ volcano_plot <- function(data,
     data$CHR_F <- factor(data$CHR)
     plt <- ggplot(data, aes(x = .data$BETA, y = .data$LOG10P,
                              color = .data$CHR_F))
-    plt <- plt + scale_color_chromosome(guide = "none")
+    plt <- plt + scale_color_chromosome(
+      chromosomes = sort(unique(data$CHR)), guide = "none")
   } else {
     plt <- ggplot(data, aes(x = .data$BETA, y = .data$LOG10P,
                              color = .data[[color_by]]))

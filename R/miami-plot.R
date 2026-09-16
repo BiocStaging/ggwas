@@ -85,7 +85,8 @@ miami_plot <- function(top, bottom,
                      aes(x = .data$BP_CUM, y = .data$LOG10P,
                          color = .data$CHR_F)) +
     geom_point(size = 0.8, alpha = 1, shape = 16) +
-    scale_color_chromosome(colors = colors, guide = "none") +
+    scale_color_chromosome(colors = colors, chromosomes = chr_info$CHR,
+                           guide = "none") +
     scale_x_continuous(
       breaks = chr_info$center,
       labels = int_to_chr(chr_info$CHR),

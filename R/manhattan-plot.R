@@ -153,7 +153,8 @@ manhattan_plot <- function(data,
     geom_point(size = point_size, alpha = alpha, shape = 16)
 
   plt <- plt +
-    scale_color_chromosome(colors = colors, guide = "none") +
+    scale_color_chromosome(colors = colors, chromosomes = chr_info$CHR,
+                           guide = "none") +
     scale_x_continuous(
       breaks = chr_info$center,
       labels = chr_labels,
@@ -259,7 +260,8 @@ manhattan_plot <- function(data,
     plt <- ggplot(data, aes(x = .data$BP_CUM, y = .data$LOG10P_plot,
                              color = .data$CHR_F)) +
       geom_point(size = point_size, alpha = alpha, shape = 16) +
-      scale_color_chromosome(colors = colors, guide = "none") +
+      scale_color_chromosome(colors = colors, chromosomes = chr_info$CHR,
+                             guide = "none") +
       scale_x_continuous(
         breaks = chr_info$center, labels = chr_labels, expand = c(0.01, 0)
       ) +
